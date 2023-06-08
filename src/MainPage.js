@@ -2,8 +2,6 @@ import React, { useEffect, useState} from 'react';
 import Countries from './Countries';
 
 const MainPage = () => {
-    // const [list, setList] = useState(false);
-
     const [countries, setCountries] = useState([]);
     const [region, setRegion] = useState();
     const [searchValue, setSearchValue] = useState('');
@@ -21,12 +19,9 @@ const MainPage = () => {
 
     fetchCountries();
   }, []);
-  
+  // all the regions in the world 
   const unique = Array.from(new Set (countries.map(country => (country.region) )));
 
-  // const showList = () => {
-  //   setList(!list);
-  // }
   return (
         <div className=' p-4 md:px-10 dark:bg-dark-veryDarkBlue dark:text-light-white bg-light-veryLightGray text-light-gray min-h-screen overflow-y-hidden'>
           <div className="flex justify-between my-4">
