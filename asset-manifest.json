@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/basem-asem/countries-api/static/css/main.e007d3f4.css",
+    "main.js": "/basem-asem/countries-api/static/js/main.f16cf160.js",
+    "static/js/787.862c3719.chunk.js": "/basem-asem/countries-api/static/js/787.862c3719.chunk.js",
+    "index.html": "/basem-asem/countries-api/index.html",
+    "main.e007d3f4.css.map": "/basem-asem/countries-api/static/css/main.e007d3f4.css.map",
+    "main.f16cf160.js.map": "/basem-asem/countries-api/static/js/main.f16cf160.js.map",
+    "787.862c3719.chunk.js.map": "/basem-asem/countries-api/static/js/787.862c3719.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e007d3f4.css",
+    "static/js/main.f16cf160.js"
+  ]
+}
