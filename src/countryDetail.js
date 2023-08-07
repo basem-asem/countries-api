@@ -1,18 +1,23 @@
 import { useNavigate, useParams } from "react-router-dom";
-import useFetch from "./useFetch";
 import React, { useEffect, useState } from 'react';
+import db from './firebase';
+import { onValue, ref } from 'firebase/database';
+
 
 const CountryDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data, error, ispending} = useFetch('http://localhost:3001/countries/');
   const [countries, setCountries] = useState([]);
 
   useEffect(() => {
-    if (data) {
-      setCountries(data);
-    }
-  }, [data]);
+    const query = ref(db, "countries");
+    return onValue(query, (snapshot)=> {
+      const data = snapshot.val();
+      if (snapshot.exists()){
+        setCountries(Object.values(data));
+      };
+    })
+  }, []);
 
   const country = countries.find(country => country.alpha3Code === id);
 
@@ -34,11 +39,9 @@ const CountryDetail = () => {
 
 return (
     <div className="min-h-screen p-4 pt-10 md:px-10 dark:bg-dark-veryDarkBlue  bg-light-veryLightGray text-dark-text">
-        <div className="p-1 px-4 mb-10 w-fit shadow-lg text-sm dark:bg-dark-blue dark:text-light-white rounded-sm flex items-center gap-3" onClick={handleGoBack}> 
+        <div className="p-1 px-4 mb-10 w-fit shadow-lg text-sm dark:bg-dark-blue dark:text-light-white rounded-sm flex items-center gap-3 cursor-pointer select-none" onClick={handleGoBack}> 
         <svg className=' dark:fill-light-white' height="1em" viewBox="0 0 512 512"><path d="M177.5 414c-8.8 3.8-19 2-26-4.6l-144-136C2.7 268.9 0 262.6 0 256s2.7-12.9 7.5-17.4l144-136c7-6.6 17.2-8.4 26-4.6s14.5 12.5 14.5 22l0 72 288 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32l-288 0 0 72c0 9.6-5.7 18.2-14.5 22z"/></svg>
         <p>Back</p></div>
-        { ispending && <div> Loading ... </div> }
-        { error && <div> {error} </div> }
         {/* render the country informaation */}
         {country && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -77,7 +80,7 @@ return (
             </div>
             <div className="flex items-center flex-wrap mt-10 font-semibold dark:text-light-white ">
                 Border Countries: {borderCountries.map(borders => 
-                <p className="p-1 px-2 w-fit shadow-lg text-xs dark:bg-dark-blue dark:text-light-white text-light-gray rounded-sm m-1">{borders}</p>
+                <p className="p-1 px-2 w-fit shadow-lg text-xs dark:bg-dark-blue dark:text-light-white text-light-gray rounded-sm m-1" key={borders.id}>{borders}</p>
                     )}
             </div>
         </div>

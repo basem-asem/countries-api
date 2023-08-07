@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import useFetch from './useFetch';
+import db from './firebase';
+import { onValue, ref } from 'firebase/database';
+
 
 const CountriesPage = ({searchValue = '', region = ''}) => {
-  const { data, ispending, error } = useFetch('http://localhost:3001/countries');
+  
   const [countries, setCountries] = useState([]);
 
   useEffect(() => {
-    if (data) {
-      setCountries(data);
-    }
-  }, [data]);
+    const query = ref(db, "countries");
+    return onValue(query, (snapshot)=> {
+      const data = snapshot.val();
+      setCountries(Object.values(data));
+    })
+  }, []);
 
   // filter countries by region
   const filter = countries ? countries.filter((country) => country.region === region) : [];

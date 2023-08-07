@@ -1,24 +1,24 @@
 import React, { useEffect, useState} from 'react';
 import Countries from './Countries';
+import db from './firebase';
+import { onValue, ref } from 'firebase/database';
+
 
 const MainPage = () => {
     const [countries, setCountries] = useState([]);
     const [region, setRegion] = useState();
     const [searchValue, setSearchValue] = useState('');
 
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await fetch('http://localhost:3001/countries');
-        const data = await response.json();
-        setCountries(data);
-      } catch (error) {
-        console.log('Error:', error);
-      }
-    };
+    useEffect(() => {
+      const query = ref(db, "countries");
+      return onValue(query, (snapshot)=> {
+        const data = snapshot.val();
+        if (snapshot.exists()){
+          setCountries(Object.values(data));
+        };
+      })
+    }, []);
 
-    fetchCountries();
-  }, []);
   // all the regions in the world 
   const unique = Array.from(new Set (countries.map(country => (country.region) )));
 
@@ -34,7 +34,7 @@ const MainPage = () => {
             <select onChange={(e) => setRegion(e.target.value)} className='bg-light-white shadow-md dark:bg-dark-blue dark:text-light-white rounded-sm cursor-pointer p-2 px-4' name="Filter by Region" >
               <option className='mt-1 pl-6 pr-14 py-2 rounded-sm' >Filter by Region</option>
               {unique.map(region => (
-                <option value={region}>{region}</option>
+                <option value={region} key={region.lenth}>{region}</option>
                 
               ))}
             </select>
