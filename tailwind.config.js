@@ -15,6 +15,11 @@ module.exports = {
           veryLightGray: 'hsl(0, 0%, 98%)',
           white: 'hsl(0, 0%, 100%)',
         },
+      },boxShadow: {
+        card: "0px 35px 120px -15px #211e35",
+      },
+      screens: {
+        xs: "450px",
       },
       },
   },
