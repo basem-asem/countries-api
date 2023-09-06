@@ -33,7 +33,7 @@ const CountryDetail = () => {
 //   adjusting the border where country render first 
   let borderCountries = [];
   
-  if (country) {
+  if (country && country.borders) {
     borderCountries = country.borders.map((borderCode) => {
       const borderCountry = countries.find((country) => country.alpha3Code === borderCode);
       return borderCountry.name;
